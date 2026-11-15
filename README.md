@@ -73,18 +73,17 @@ It will help users move beyond simply knowing how much their investments are wor
 ## 6. Development Plan
 
 **Sprint 1 — MVP (Unit 12)**
-- Set up the project structure and database.
-- Implement portfolio creation and management.
-- Allow users to add stock holdings.
-- Integrate basic stock price retrieval.
-- Calculate and display total portfolio value.
-
+- As an investor, I want AI to identify notable portfolio risks so that I know which areas may need further review.
+- As an investor, I want AI to explain financial metrics in simple language so that I can understand what the numbers mean.
+- As an investor, I want to receive an AI-generated summary of my portfolio so that I can quickly understand its main characteristics.
+- As an investor, I want to view performance and risk indicators so that I can better understand portfolio behavior.
+- As an investor, I want to see my portfolio's total value so that I can understand how much my investments are worth.
+  
 **Sprint 2 — Final Application (Units 13–14)**
-- Add portfolio performance and risk analytics.
-- Build interactive charts and visualizations.
-- Implement AI-powered portfolio insights.
-- Improve validation, error handling, and user experience.
-- Test and document the completed application.
+- As an investor, I want to see current stock prices so that I can understand the latest value of my holdings.
+- As an investor, I want to edit or remove a holding so that my portfolio stays accurate when my positions change.
+- As an investor, I want to create a portfolio so that I can organize the stocks I want to monitor.
+
 
 ## Expected Outcome
 
