@@ -51,14 +51,20 @@ It will help users move beyond simply knowing how much their investments are wor
 | Component | Planned Technology | Purpose |
 |---|---|---|
 | Frontend | React.js | Build the interactive user interface |
-| Styling | Tailwind CSS | Create a responsive, consistent design |
+| Styling | Tailwind CSS | Create a clean, responsive white design |
 | Backend | Python with FastAPI | Handle application logic and API requests |
-| Database | PostgreSQL | Store users, portfolios, and holdings |
-| Data Analysis | Pandas and NumPy | Perform financial calculations |
-| Market Data | Financial market data API | Retrieve stock prices and historical data |
-| Visualization | Plotly | Display portfolio performance and risk charts |
-| AI Integration | LLM API | Generate explanations and portfolio summaries |
+| Database | SQLite & SQLAlchemy | Store portfolios, holdings, and cash buffers |
+| Market Data Service | Yahoo Finance Normalized Feed | Retrieve multi-asset pricing & market feeds |
+| Quantitative Analytics | Pandas & NumPy | Calculate Beta, Volatility, Sharpe Ratio, and HHI |
 | Version Control | Git and GitHub | Track code changes and collaborate |
+
+### Market Data Provider, API Limits & Attribution
+- **Provider**: **Yahoo Finance Normalized Feed** with in-memory TTL caching (see [docs/MARKET_DATA_PROVIDER.md](docs/MARKET_DATA_PROVIDER.md)).
+- **Rate Limits**: Up to ~2,000 requests/hour; cached with a 5-minute (300s) TTL to respect fair-use policy.
+- **Data Latency**: 15–20 minutes delayed for US exchanges.
+- **Attribution Requirement**: *"Market data provided via Yahoo Finance & Normalized Exchange Feeds. Quotes are delayed by 15-20 minutes. Strictly intended for educational and non-commercial portfolio analytics."*
+- **Base Currency**: `USD`. Price, currency, and last-updated sync times are displayed on every position.
+
 
 ## 5. Basic Project Goals
 
@@ -73,18 +79,50 @@ It will help users move beyond simply knowing how much their investments are wor
 ## 6. Development Plan
 
 **Sprint 1 — MVP (Unit 12)**
-- As an investor, I want AI to identify notable portfolio risks so that I know which areas may need further review.
-- As an investor, I want AI to explain financial metrics in simple language so that I can understand what the numbers mean.
-- As an investor, I want to receive an AI-generated summary of my portfolio so that I can quickly understand its main characteristics.
-- As an investor, I want to view performance and risk indicators so that I can better understand portfolio behavior.
-- As an investor, I want to see my portfolio's total value so that I can understand how much my investments are worth.
-  
-**Sprint 2 — Final Application (Units 13–14)**
-- As an investor, I want to see current stock prices so that I can understand the latest value of my holdings.
-- As an investor, I want to edit or remove a holding so that my portfolio stays accurate when my positions change.
 - As an investor, I want to create a portfolio so that I can organize the stocks I want to monitor.
+- As an investor, I want to add stocks to my portfolio so that I can track the assets I am interested in.
+- As an investor, I want to edit or remove a holding so that my portfolio stays accurate when my positions change.
+- As an investor, I want to see current stock prices so that I can understand the latest value of my holdings.
+- As an investor, I want to see my portfolio's total value so that I can understand how much my investments are worth.
+**Sprint 2 — Final Application (Units 13–14)**
+- As an investor, I want to view performance and risk indicators so that I can better understand portfolio behavior.
+- As an investor, I want to receive an AI-generated summary of my portfolio so that I can quickly understand its main characteristics.
+- As an investor, I want AI to explain financial metrics in simple language so that I can understand what the numbers mean.
+- As an investor, I want AI to identify notable portfolio risks so that I know which areas may need further review.
 
 
 ## Expected Outcome
 
 The final product will be a functional web application that allows users to manage their investment portfolios, monitor performance, understand risk, and interpret quantitative financial information through an accessible dashboard.
+
+## 7. Setup & Run Instructions
+
+Quantfolio is designed for finance and quant interested students:
+- **Database**: Embedded SQLite database (`backend/quantfolio.db`).
+- **Backend**: FastAPI with Python and SQLAlchemy ORM.
+- **Frontend**: React with Vite, Tailwind CSS, and Lucide icons.
+
+### 1. Start the Backend API
+```bash
+# Navigate to project root
+python -m uvicorn backend.main:app --reload --port 8000
+```
+- API Docs: `http://localhost:8000/docs`
+- Health check: `http://localhost:8000/`
+
+### 2. Start the Frontend
+```bash
+cd frontend
+npm run dev
+```
+- Web Application: `http://localhost:5173/`
+
+### 3. Run Automated Acceptance Criteria Verification
+```bash
+python backend/test_quantfolio.py
+```
+This suite automatically verifies:
+- Holding quantity updates (`PUT /api/holdings/{id}`)
+- Holding removals with confirmation (`DELETE /api/holdings/{id}`)
+- Persistence after page refresh (re-fetching from SQLite database)
+
